@@ -8,13 +8,11 @@
 	<body>
 		<script type="text/javascript">
 		
-            //here I have given you a different dataset, its an array(list) of the numbers 1 to 100 
             var dataset = [];
             for (var i = 1; i <= 100; i++) {
                dataset.push(i);
             }            
             
-            //all this will stay the same
 			d3.select("body").selectAll("p")
 				.data(dataset)
 				.enter()
@@ -23,7 +21,6 @@
 					return d;
 				})
 				.style("color", function(d) {
-                    //YOUR CODE WILL BE HERE
                     
                         if(d%15==0){
                             return "green"
