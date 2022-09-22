@@ -12,14 +12,14 @@
   //file name is "density_income_ny_counties.csv"
   //see 03 for loading
 
-  d3.csv("data/density_income_ny_counties.csv")
-        .then(function(data){
-        d3.select("body").selectAll("p") 
-        .data(data)
-        .enter()
-        .append("p")
-        .text(function(d) {
-        return d.Geo_NAME
+    d3.csv("data/density_income_ny_counties.csv")
+     .then(function(data){
+            d3.select("body").selectAll("p") 
+            .data(data)
+            .enter()
+            .append("p")
+            .text(function(d) {
+            return d.Geo_NAME
     })
     .style("color", function(d) {
             if (d.median_income>65323){
