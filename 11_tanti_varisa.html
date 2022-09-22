@@ -6,29 +6,12 @@
 </head>
 <body>
     <script type="text/javascript">
-
-    //YOUR ASSIGNMENT STARTS HERE: 
+  
+   //YOUR ASSIGNMENT STARTS HERE: 
    //use what you have learned so far to load the file of density and income data in the data folder in this chapter
   //file name is "density_income_ny_counties.csv"
   //see 03 for loading
-
-    d3.csv("data/density_income_ny_counties.csv")
-     .then(function(data){
-            d3.select("body").selectAll("p") 
-            .data(data)
-            .enter()
-            .append("p")
-            .text(function(d) {
-            return d.Geo_NAME
-    })
-    .style("color", function(d) {
-            if (d.median_income>65323){
-                return "red"
-            }else{
-                return "black"
-        }
-    })
-    })
+  
   
   //make a paragraph for each county, and set the name of the county as its text
   //if the median income of the county is above the median income of new york state, turn the county name red
@@ -36,8 +19,25 @@
   //the median income for 2014 - 2018 period is $65,323
   //the key for the name of the county is "Geo_NAME"
   //the key for median income is "median_income"
+d3.csv("data/density_income_ny_counties.csv")
+.then(function(data){
+    d3.select("body").selectAll("p")
+    .data(data)
+    .enter()
+    .append("p")
+    .text(function(d) {		
+    return d.Geo_NAME
+})
+.style("color", function(d){
+    if (d.median_income>65323){
+        return "red"
+    }else{
+            return "black"
+    }
+})
+})
 
 
     </script>
-    </body>
-    </html>
+
+<p style="color: black;">Albany County</p><p style="color: black;">Allegany County</p><p style="color: black;">Bronx County</p><p style="color: black;">Broome County</p><p style="color: black;">Cattaraugus County</p><p style="color: black;">Cayuga County</p><p style="color: black;">Chautauqua County</p><p style="color: black;">Chemung County</p><p style="color: black;">Chenango County</p><p style="color: black;">Clinton County</p><p style="color: black;">Columbia County</p><p style="color: black;">Cortland County</p><p style="color: black;">Delaware County</p><p style="color: red;">Dutchess County</p><p style="color: black;">Erie County</p><p style="color: black;">Essex County</p><p style="color: black;">Franklin County</p><p style="color: black;">Fulton County</p><p style="color: black;">Genesee County</p><p style="color: black;">Greene County</p><p style="color: black;">Hamilton County</p><p style="color: black;">Herkimer County</p><p style="color: black;">Jefferson County</p><p style="color: black;">Kings County</p><p style="color: black;">Lewis County</p><p style="color: black;">Livingston County</p><p style="color: black;">Madison County</p><p style="color: black;">Monroe County</p><p style="color: black;">Montgomery County</p><p style="color: red;">Nassau County</p><p style="color: red;">New York County</p><p style="color: black;">Niagara County</p><p style="color: black;">Oneida County</p><p style="color: black;">Onondaga County</p><p style="color: black;">Ontario County</p><p style="color: red;">Orange County</p><p style="color: black;">Orleans County</p><p style="color: black;">Oswego County</p><p style="color: black;">Otsego County</p><p style="color: red;">Putnam County</p><p style="color: black;">Queens County</p><p style="color: red;">Rensselaer County</p><p style="color: red;">Richmond County</p><p style="color: red;">Rockland County</p><p style="color: black;">St. Lawrence County</p><p style="color: red;">Saratoga County</p><p style="color: black;">Schenectady County</p><p style="color: black;">Schoharie County</p><p style="color: black;">Schuyler County</p><p style="color: black;">Seneca County</p><p style="color: black;">Steuben County</p><p style="color: red;">Suffolk County</p><p style="color: black;">Sullivan County</p><p style="color: black;">Tioga County</p><p style="color: black;">Tompkins County</p><p style="color: black;">Ulster County</p><p style="color: black;">Warren County</p><p style="color: black;">Washington County</p><p style="color: black;">Wayne County</p><p style="color: red;">Westchester County</p><p style="color: black;">Wyoming County</p><p style="color: black;">Yates County</p></body></html>
