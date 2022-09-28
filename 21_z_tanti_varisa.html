@@ -34,14 +34,14 @@
 			   		return i*20
 			   })
 			   .attr("y", function(d) {
-			   		return 200-d
+			   		return 0
 			   })
 			   .attr("width", 10)
 			   .attr("height", function(d) {
 			   		return d
 			   })
 			   .attr("fill", function(d) {
-					return "rgb(200, "+Math.round(d*2)+", " + Math.round(d * 10) + ")";
+				return "rgb(200, "+Math.round(d*2)+", " + Math.round(d * 10) + ")";
 			   })
          .attr("opacity",.5);
 		
