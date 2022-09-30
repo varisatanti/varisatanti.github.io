@@ -1,73 +1,73 @@
 <!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<title>D3: A simple scatterplot with value labels</title>
-		<script type="text/javascript" src="../d3.js"></script>
-		<style type="text/css">
-			/* No style rules here yet */		
-		</style>
-	</head>
-	<body>
-		<script type="text/javascript">
-            
-            //ASSIGNMENT:
-            //1. apply a color scale similar to the bar graph in the file 19 example to the circles based on their radius
-            //2. change the label text from "label here" to the name of the fruit from the dataset - apples, etc.
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <title>D3: A simple scatterplot with value labels</title>
+    <script type="text/javascript" src="../d3.js"></script>
+    <style type="text/css">
+        /* No style rules here yet */		
+    </style>
+</head>
+<body>
+    <script type="text/javascript">
+        
+        //ASSIGNMENT:
+        //1. apply a color scale similar to the bar graph in the file 19 example to the circles based on their radius
+        //2. change the label text from "label here" to the name of the fruit from the dataset - apples, etc.
 
-			//Width and height of svg
-			var w = 500;
-			var h = 200;
-			
-			var dataset = [
-        {label:"apples",x:5,y:20,r:3},
-        {label:"oranges",x:220,y:90,r:30},
-        {label:"grapes",x:425,y:50,r:12},
-        {label:"bananas",x:85,y:33,r:4},
-        {label:"watermelons",x:25,y:95,r:6},
-        {label:"pears",x:330,y:88,r:9}
-      ]
-	
-			//Create SVG element
-			var svg = d3.select("body")
-						.append("svg")
-						.attr("width", w)
-						.attr("height", h);
+        //Width and height of svg
+        var w = 500;
+        var h = 200;
+        
+        var dataset = [
+    {label:"apples",x:5,y:20,r:3},
+    {label:"oranges",x:220,y:90,r:30},
+    {label:"grapes",x:425,y:50,r:12},
+    {label:"bananas",x:85,y:33,r:4},
+    {label:"watermelons",x:25,y:95,r:6},
+    {label:"pears",x:330,y:88,r:9}
+  ]
 
-			svg.selectAll("circle")
-			   .data(dataset)
-			   .enter()
-			   .append("circle")
-			   .attr("cx", function(d) {
-			   		return d.x;
-			   })
-			   .attr("cy", function(d) {
-			   		return d.y;
-			   })
-			   .attr("r", function(d) {
-			   		return d.r
-			   })
-         .attr("fill",function(d){
-			return "rgb(0, 0, " + Math.round(d.r * 10) + ")";
-         });
+        //Create SVG element
+        var svg = d3.select("body")
+                    .append("svg")
+                    .attr("width", w)
+                    .attr("height", h);
 
-			svg.selectAll("text")
-			   .data(dataset)
-			   .enter()
-			   .append("text")
-			   .text(function(d) {
-				   return d.label
-				  return "label here"//ADD HERE TO CHANGE THE LABEL
-			   })
-			   .attr("x", function(d) {
-			   		return d.x+d.r;
-			   })
-			   .attr("y", function(d) {
-			   		return d.y+d.r;
-			   })
-			   .attr("font-family", "sans-serif")
-			   .attr("font-size", "11px")
-			
-		</script>
-	</body>
+        svg.selectAll("circle")
+           .data(dataset)
+           .enter()
+           .append("circle")
+           .attr("cx", function(d) {
+                   return d.x;
+           })
+           .attr("cy", function(d) {
+                   return d.y;
+           })
+           .attr("r", function(d) {
+                   return d.r
+           })
+     .attr("fill",function(d){
+        return "rgb(0, 0, " + Math.round(d.r * 10) + ")";
+     });
+
+        svg.selectAll("text")
+           .data(dataset)
+           .enter()
+           .append("text")
+           .text(function(d) {
+               return d.label
+              return "label here"//ADD HERE TO CHANGE THE LABEL
+           })
+           .attr("x", function(d) {
+                   return d.x+d.r;
+           })
+           .attr("y", function(d) {
+                   return d.y+d.r;
+           })
+           .attr("font-family", "sans-serif")
+           .attr("font-size", "11px")
+        
+    </script><svg width="500" height="200"><circle cx="5" cy="20" r="3" fill="rgb(0, 0, 30)"></circle><circle cx="220" cy="90" r="30" fill="rgb(0, 0, 300)"></circle><circle cx="425" cy="50" r="12" fill="rgb(0, 0, 120)"></circle><circle cx="85" cy="33" r="4" fill="rgb(0, 0, 40)"></circle><circle cx="25" cy="95" r="6" fill="rgb(0, 0, 60)"></circle><circle cx="330" cy="88" r="9" fill="rgb(0, 0, 90)"></circle><text x="8" y="23" font-family="sans-serif" font-size="11px">apples</text><text x="250" y="120" font-family="sans-serif" font-size="11px">oranges</text><text x="437" y="62" font-family="sans-serif" font-size="11px">grapes</text><text x="89" y="37" font-family="sans-serif" font-size="11px">bananas</text><text x="31" y="101" font-family="sans-serif" font-size="11px">watermelons</text><text x="339" y="97" font-family="sans-serif" font-size="11px">pears</text></svg>
+
+</body>
 </html>
