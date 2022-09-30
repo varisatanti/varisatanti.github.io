@@ -19,12 +19,12 @@
         var h = 200;
         
         var dataset = [
-    {label:"apples",x:5,y:20,r:3},
-    {label:"oranges",x:220,y:90,r:30},
-    {label:"grapes",x:425,y:50,r:12},
-    {label:"bananas",x:85,y:33,r:4},
-    {label:"watermelons",x:25,y:95,r:6},
-    {label:"pears",x:330,y:88,r:9}
+    {label:"kiwi",x:5,y:20,r:3},
+    {label:"mango",x:220,y:90,r:30},
+    {label:"durian",x:425,y:50,r:12},
+    {label:"mangosteen",x:85,y:33,r:4},
+    {label:"tomato",x:25,y:95,r:6},
+    {label:"orange",x:330,y:88,r:9}
   ]
 
         //Create SVG element
@@ -47,7 +47,7 @@
                    return d.r
            })
      .attr("fill",function(d){
-        return "rgb(0, 0, " + Math.round(d.r * 10) + ")";
+        return "rgb(0, 60, " + Math.round(d.r * 5) + ")";
      });
 
         svg.selectAll("text")
