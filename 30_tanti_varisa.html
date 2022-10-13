@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+	<meta charset="utf-8">
+	<title>D3: A static delay before transition</title>
+	<script type="text/javascript" src="../d3.js"></script>
+	<style type="text/css">
+		/* No style rules here yet */		
+	</style>
+</head>
+<body>
+
+	<p>Click on this text to turn chart sideways.</p>
+		
+	<script type="text/javascript">
+
+		//ASSIGNMENT: turn the bar chart sideways, which was done without transition in an earlier chapter
+
+		//Width and height
+		var w = 600;
+		var h = 600;
+		
+		var dataset = [ 5, 10, 13, 19, 21, 25, 22, 18, 15, 13,
+						11, 12, 15, 20, 18, 17, 16, 18, 23, 25 ];
+		
+		var xScale = d3.scaleBand()
+						.domain(d3.range(dataset.length))
+						.rangeRound([0, h])
+						.paddingInner(0.05);
+
+		var yScale = d3.scaleLinear()
+						.domain([0, d3.max(dataset)])
+						.range([0, w]);
+		
+		//Create SVG element
+		var svg = d3.select("body")
+					.append("svg")
+					.attr("width", w)
+					.attr("height", h);
+
+		//Create bars
+		svg.selectAll("rect")
+		   .data(dataset)
+		   .enter()
+		   .append("rect")
+		   .attr("x", function(d, i) {
+				   return xScale(i);
+		   })
+		   .attr("y", function(d) {
+				   return h - yScale(d);
+		   })
+		   .attr("width", xScale.bandwidth())
+		   .attr("height", function(d) {
+				   return yScale(d);
+		   })
+		   .attr("fill", function(d) {
+				return "rgb(0, 0, " + Math.round(d * 10) + ")";
+		   });
+
+		//Create labels
+		svg.selectAll("text")
+		   .data(dataset)
+		   .enter()
+		   .append("text")
+		   .text(function(d) {
+				   return d;
+		   })
+		   .attr("text-anchor", "middle")
+		   .attr("x", function(d, i) {
+				   return xScale(i) + xScale.bandwidth() / 2;
+		   })
+		   .attr("y", function(d) {
+				   return h - 20;
+		   })
+		   .attr("font-family", "sans-serif")
+		   .attr("font-size", "11px")
+		   .attr("fill", "white");
+
+
+
+
+	   //TODO: On click, update to turn graph sideways and also move the labels to the end of each bar
+	   //HINT: try switching the values of x and y, and width and height to see what happens, adjust from there
+		d3.select("p")
+			.on("click", function() {
+				//Update all rects
+				svg.selectAll("rect")
+				   .data(dataset)
+				   .transition()
+				   .delay(1000)					// <-- A static, 1s delay before transition begins
+				   .duration(2000)
+					 .attr("x", xScale(0))
+					.attr("y", function(d, i) {
+					   return xScale(i);
+					})
+				   .attr("height", xScale.bandwidth())
+				   .attr("width", function(d) {
+					   return yScale(d);
+				   })
+
+				//Update all labels
+				svg.selectAll("text")
+				   .data(dataset)
+				   .transition()
+				   .delay(1000)					// <-- A static, 1s delay before transition begins
+				   .duration(2000)
+				   .text(function(d) {
+						   return d;
+				   })
+				   .attr("text-anchor", "middle")
+				   .attr("x", xScale(0)+20)
+				   .attr("y", function(d,i) {
+						return xScale(i) + xScale.bandwidth() / 2 + 4;
+				   });
+								   
+			});
+
+		
+	</script><svg width="600" height="600"><rect x="1" y="1" width="120" height="29" fill="rgb(0, 0, 50)"></rect><rect x="1" y="31" width="240" height="29" fill="rgb(0, 0, 100)"></rect><rect x="1" y="61" width="312" height="29" fill="rgb(0, 0, 130)"></rect><rect x="1" y="91" width="456" height="29" fill="rgb(0, 0, 190)"></rect><rect x="1" y="121" width="504" height="29" fill="rgb(0, 0, 210)"></rect><rect x="1" y="151" width="600" height="29" fill="rgb(0, 0, 250)"></rect><rect x="1" y="181" width="528" height="29" fill="rgb(0, 0, 220)"></rect><rect x="1" y="211" width="432" height="29" fill="rgb(0, 0, 180)"></rect><rect x="1" y="241" width="360" height="29" fill="rgb(0, 0, 150)"></rect><rect x="1" y="271" width="312" height="29" fill="rgb(0, 0, 130)"></rect><rect x="1" y="301" width="264" height="29" fill="rgb(0, 0, 110)"></rect><rect x="1" y="331" width="288" height="29" fill="rgb(0, 0, 120)"></rect><rect x="1" y="361" width="360" height="29" fill="rgb(0, 0, 150)"></rect><rect x="1" y="391" width="480" height="29" fill="rgb(0, 0, 200)"></rect><rect x="1" y="421" width="432" height="29" fill="rgb(0, 0, 180)"></rect><rect x="1" y="451" width="408.00000000000006" height="29" fill="rgb(0, 0, 170)"></rect><rect x="1" y="481" width="384" height="29" fill="rgb(0, 0, 160)"></rect><rect x="1" y="511" width="432" height="29" fill="rgb(0, 0, 180)"></rect><rect x="1" y="541" width="552" height="29" fill="rgb(0, 0, 230)"></rect><rect x="1" y="571" width="600" height="29" fill="rgb(0, 0, 250)"></rect><text text-anchor="middle" x="21" y="19.5" font-family="sans-serif" font-size="11px" fill="white">5</text><text text-anchor="middle" x="21" y="49.5" font-family="sans-serif" font-size="11px" fill="white">10</text><text text-anchor="middle" x="21" y="79.5" font-family="sans-serif" font-size="11px" fill="white">13</text><text text-anchor="middle" x="21" y="109.5" font-family="sans-serif" font-size="11px" fill="white">19</text><text text-anchor="middle" x="21" y="139.5" font-family="sans-serif" font-size="11px" fill="white">21</text><text text-anchor="middle" x="21" y="169.5" font-family="sans-serif" font-size="11px" fill="white">25</text><text text-anchor="middle" x="21" y="199.5" font-family="sans-serif" font-size="11px" fill="white">22</text><text text-anchor="middle" x="21" y="229.5" font-family="sans-serif" font-size="11px" fill="white">18</text><text text-anchor="middle" x="21" y="259.5" font-family="sans-serif" font-size="11px" fill="white">15</text><text text-anchor="middle" x="21" y="289.5" font-family="sans-serif" font-size="11px" fill="white">13</text><text text-anchor="middle" x="21" y="319.5" font-family="sans-serif" font-size="11px" fill="white">11</text><text text-anchor="middle" x="21" y="349.5" font-family="sans-serif" font-size="11px" fill="white">12</text><text text-anchor="middle" x="21" y="379.5" font-family="sans-serif" font-size="11px" fill="white">15</text><text text-anchor="middle" x="21" y="409.5" font-family="sans-serif" font-size="11px" fill="white">20</text><text text-anchor="middle" x="21" y="439.5" font-family="sans-serif" font-size="11px" fill="white">18</text><text text-anchor="middle" x="21" y="469.5" font-family="sans-serif" font-size="11px" fill="white">17</text><text text-anchor="middle" x="21" y="499.5" font-family="sans-serif" font-size="11px" fill="white">16</text><text text-anchor="middle" x="21" y="529.5" font-family="sans-serif" font-size="11px" fill="white">18</text><text text-anchor="middle" x="21" y="559.5" font-family="sans-serif" font-size="11px" fill="white">23</text><text text-anchor="middle" x="21" y="589.5" font-family="sans-serif" font-size="11px" fill="white">25</text></svg>
+
+</body>
+</html>
