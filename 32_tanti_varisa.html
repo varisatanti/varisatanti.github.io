@@ -1,189 +1,189 @@
-
 <!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<title>D3: Time axis, prettier</title>
-		<script type="text/javascript" src="../d3.js"></script>
-		<style type="text/css">
-			
-			#tooltip {
-			position: absolute;
-			width: 200px;
-			height: auto;
-			padding: 10px;
-			background-color: white;
-			-webkit-border-radius: 10px;
-			-moz-border-radius: 10px;
-			border-radius: 10px;
-			-webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4); 
-			-moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4); 
-			box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4); 
-			pointer-events: none;
-			}
-			
-			#tooltip.hidden { display: none;
-			}
-			#tooltip p { margin: 0;
-			font-family: sans-serif; font-size: 16px;
-			line-height: 20px; }	
-				
-		</style>
-
-	</head>
-	<body>
-		<div id="tooltip" class="hidden"> <p><strong>Amount</strong></p> <p><span id="value">100</span>%</p>
-		</div>
-		<script type="text/javascript">
-			
-
-
-            //ASSIGNMENT: the data for this visualization is not loaded correctly.
-            //there are 2 bugs - both in line 42-43 - starting at d3.csv("..
-            //fix the file path and the csv function so that the data is loaded and displays correctly
-            //Then implement a tooltip of your choice for the circles on rollover.
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <title>D3: Time axis, prettier</title>
+    <script type="text/javascript" src="../d3.js"></script>
+    <style type="text/css">
+        
+        #tooltip {
+        position: absolute;
+        width: 200px;
+        height: auto;
+        padding: 10px;
+        background-color: white;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+        -webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4); 
+        -moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4); 
+        box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4); 
+        pointer-events: none;
+        }
+        
+        #tooltip.hidden { display: none;
+        }
+        #tooltip p { margin: 0;
+        font-family: sans-serif; font-size: 16px;
+        line-height: 20px; }	
             
-			//Width and height
-			var w = 600;
-			var h = 400;
-			var padding = 40;
-			
-			var dataset, xScale, yScale, xAxis, yAxis;  //Empty, for now
+    </style>
 
-			//For converting strings to Dates
-			var parseTime = d3.timeParse("%m/%d/%y");
-
-			//For converting Dates to strings
-			var formatTime = d3.timeFormat("%e");
-
-			//Function for converting CSV values from strings to Dates and numbers
-			var rowConverter = function(d) {
-				return {
-					Date: parseTime(d.Date),
-					Amount: parseInt(d.Amount)
-				};
-			}
-
-			//Load in the data
-			d3.csv("time_scale_data.csv", rowConverter)
-            .then(function(data) {
-				//Copy data into global dataset
-				dataset = data;
-
-				//Discover start and end dates in dataset
-				var startDate = d3.min(dataset, function(d) { return d.Date; });
-				var endDate = d3.max(dataset, function(d) { return d.Date; });
-
-				//Create scale functions
-				xScale = d3.scaleTime()
-							   .domain([
-									d3.timeDay.offset(startDate, -1),  //startDate minus one day, for padding
-									d3.timeDay.offset(endDate, 1)	  //endDate plus one day, for padding
-								])
-							   .range([padding, w - padding]);
-
-				yScale = d3.scaleLinear()
-							   .domain([
-									0,  //Because I want a zero baseline
-									d3.max(dataset, function(d) { return d.Amount; })
-								])
-							   .range([h - padding, padding]);
-
-				//Define X axis
-				xAxis = d3.axisBottom()
-								  .scale(xScale)
-								  .ticks(9)
-								  .tickFormat(formatTime);
-
-				//Define Y axis
-				yAxis = d3.axisLeft()
-								  .scale(yScale)
-								  .ticks(10);
-
-				//Create SVG element
-				var svg = d3.select("body")
-							.append("svg")
-							.attr("width", w)
-							.attr("height", h);
-
-				//Generate guide lines
-				svg.selectAll("line")
-				   .data(dataset)
-				   .enter()
-				   .append("line")
-				   .attr("x1", function(d) {
-				   		return xScale(d.Date);
-				   })
-				   .attr("x2", function(d) {
-				   		return xScale(d.Date);
-				   })
-				   .attr("y1", h - padding)
-				   .attr("y2", function(d) {
-				   		return yScale(d.Amount);
-				   })
-				   .attr("stroke", "#ddd")
-				   .attr("stroke-width", 1)
-
-                   //TODO: 
-                   //define a tooltip
-                   //call it
+</head>
+<body>
+    <div id="tooltip" class="hidden"> <p><strong>Amount</strong></p> <p><span id="value">100</span>%</p>
+    </div>
+    <script type="text/javascript">
+        
 
 
-				   .on("mouseover",function(d){
-                   	var xPosition = parseFloat(d3.select(this).attr("x1")) ; 
-   					var yPosition = parseFloat(d3.select(this).attr("y2")) ;
-					d3.select("#tooltip")
-					  .style("left",xPosition + "px")
-					  .style("top",yPosition + "px")
-					  .select("#value")
-					  .text(d);
-				    })
-					
+        //ASSIGNMENT: the data for this visualization is not loaded correctly.
+        //there are 2 bugs - both in line 42-43 - starting at d3.csv("..
+        //fix the file path and the csv function so that the data is loaded and displays correctly
+        //Then implement a tooltip of your choice for the circles on rollover.
+        
+        //Width and height
+        var w = 600;
+        var h = 400;
+        var padding = 40;
+        
+        var dataset, xScale, yScale, xAxis, yAxis;  //Empty, for now
 
-				//Generate circles last, so they appear in front
-				svg.selectAll("circle")
-				   .data(dataset)
-				   .enter()
-				   .append("circle")
-				   .attr("cx", function(d) {
-				   		return xScale(d.Date);
-				   })
-				   .attr("cy", function(d) {
-				   		return yScale(d.Amount);
-				   })
-				   .attr("r", 5)
-                   .on("mouseover",function(d,i){
-                       d3.select(this).attr("fill","red");
-                      	var xPosition = parseFloat(d3.select(this).attr("cx")) ; 
-      					var yPosition = parseFloat(d3.select(this).attr("cy")) + 20 ;
-  					   d3.select("#tooltip")
-  					     .style("left",xPosition + "px")
-  					     .style("top",yPosition + "px")
-  					     .select("#value")
-  					     .text(d.Amount);
-					   d3.select("#tooltip").classed("hidden", false);
-                       //TODO: show tooltip here
-                   })
-                   .on("mouseout",function(d,i){
-                       d3.select(this).attr("fill","black")
-					   d3.select("#tooltip").classed("hidden", true);
-                       //TODO: hide tooltip here
-                   });
-	   			
-	   			//Create X axis
-	   			svg.append("g")
-	   				.attr("class", "axis")
-	   				.attr("transform", "translate(0," + (h - padding) + ")")
-	   				.call(xAxis);
-	   			
-	   			//Create Y axis
-	   			svg.append("g")
-	   				.attr("class", "axis")
-	   				.attr("transform", "translate(" + padding + ",0)")
-	   				.call(yAxis);
+        //For converting strings to Dates
+        var parseTime = d3.timeParse("%m/%d/%y");
 
-			});
-			
-		</script>
-	</body>
+        //For converting Dates to strings
+        var formatTime = d3.timeFormat("%e");
+
+        //Function for converting CSV values from strings to Dates and numbers
+        var rowConverter = function(d) {
+            return {
+                Date: parseTime(d.Date),
+                Amount: parseInt(d.Amount)
+            };
+        }
+
+        //Load in the data
+        d3.csv("time_scale_data.csv", rowConverter)
+        .then(function(data) {
+            //Copy data into global dataset
+            dataset = data;
+
+            //Discover start and end dates in dataset
+            var startDate = d3.min(dataset, function(d) { return d.Date; });
+            var endDate = d3.max(dataset, function(d) { return d.Date; });
+
+            //Create scale functions
+            xScale = d3.scaleTime()
+                           .domain([
+                                d3.timeDay.offset(startDate, -1),  //startDate minus one day, for padding
+                                d3.timeDay.offset(endDate, 1)	  //endDate plus one day, for padding
+                            ])
+                           .range([padding, w - padding]);
+
+            yScale = d3.scaleLinear()
+                           .domain([
+                                0,  //Because I want a zero baseline
+                                d3.max(dataset, function(d) { return d.Amount; })
+                            ])
+                           .range([h - padding, padding]);
+
+            //Define X axis
+            xAxis = d3.axisBottom()
+                              .scale(xScale)
+                              .ticks(9)
+                              .tickFormat(formatTime);
+
+            //Define Y axis
+            yAxis = d3.axisLeft()
+                              .scale(yScale)
+                              .ticks(10);
+
+            //Create SVG element
+            var svg = d3.select("body")
+                        .append("svg")
+                        .attr("width", w)
+                        .attr("height", h);
+
+            //Generate guide lines
+            svg.selectAll("line")
+               .data(dataset)
+               .enter()
+               .append("line")
+               .attr("x1", function(d) {
+                       return xScale(d.Date);
+               })
+               .attr("x2", function(d) {
+                       return xScale(d.Date);
+               })
+               .attr("y1", h - padding)
+               .attr("y2", function(d) {
+                       return yScale(d.Amount);
+               })
+               .attr("stroke", "#ddd")
+               .attr("stroke-width", 1)
+
+               //TODO: 
+               //define a tooltip
+               //call it
+
+
+               .on("mouseover",function(d){
+                   var xPosition = parseFloat(d3.select(this).attr("x1")) ; 
+                   var yPosition = parseFloat(d3.select(this).attr("y2")) ;
+                d3.select("#tooltip")
+                  .style("left",xPosition + "px")
+                  .style("top",yPosition + "px")
+                  .select("#value")
+                  .text(d);
+                })
+                
+
+            //Generate circles last, so they appear in front
+            svg.selectAll("circle")
+               .data(dataset)
+               .enter()
+               .append("circle")
+               .attr("cx", function(d) {
+                       return xScale(d.Date);
+               })
+               .attr("cy", function(d) {
+                       return yScale(d.Amount);
+               })
+               .attr("r", 5)
+               .on("mouseover",function(d,i){
+                   d3.select(this).attr("fill","red");
+                      var xPosition = parseFloat(d3.select(this).attr("cx")) ; 
+                      var yPosition = parseFloat(d3.select(this).attr("cy")) + 20 ;
+                     d3.select("#tooltip")
+                       .style("left",xPosition + "px")
+                       .style("top",yPosition + "px")
+                       .select("#value")
+                       .text(d.Amount);
+                   d3.select("#tooltip").classed("hidden", false);
+                   //TODO: show tooltip here
+               })
+               .on("mouseout",function(d,i){
+                   d3.select(this).attr("fill","black")
+                   d3.select("#tooltip").classed("hidden", true);
+                   //TODO: hide tooltip here
+               });
+               
+               //Create X axis
+               svg.append("g")
+                   .attr("class", "axis")
+                   .attr("transform", "translate(0," + (h - padding) + ")")
+                   .call(xAxis);
+               
+               //Create Y axis
+               svg.append("g")
+                   .attr("class", "axis")
+                   .attr("transform", "translate(" + padding + ",0)")
+                   .call(yAxis);
+
+        });
+        
+    </script>
+
+<svg width="600" height="400"><line x1="56.25" x2="56.25" y1="360" y2="208.64864864864865" stroke="#ddd" stroke-width="1"></line><line x1="72.5" x2="72.5" y1="360" y2="230.27027027027026" stroke="#ddd" stroke-width="1"></line><line x1="88.75" x2="88.75" y1="360" y2="256.2162162162162" stroke="#ddd" stroke-width="1"></line><line x1="105" x2="105" y1="360" y2="200" stroke="#ddd" stroke-width="1"></line><line x1="121.25" x2="121.25" y1="360" y2="126.48648648648648" stroke="#ddd" stroke-width="1"></line><line x1="137.5" x2="137.5" y1="360" y2="122.16216216216219" stroke="#ddd" stroke-width="1"></line><line x1="153.75" x2="153.75" y1="360" y2="91.89189189189187" stroke="#ddd" stroke-width="1"></line><line x1="170" x2="170" y1="360" y2="91.89189189189187" stroke="#ddd" stroke-width="1"></line><line x1="186.25" x2="186.25" y1="360" y2="57.29729729729729" stroke="#ddd" stroke-width="1"></line><line x1="202.5" x2="202.5" y1="360" y2="74.59459459459458" stroke="#ddd" stroke-width="1"></line><line x1="218.75" x2="218.75" y1="360" y2="139.45945945945948" stroke="#ddd" stroke-width="1"></line><line x1="235" x2="235" y1="360" y2="87.56756756756761" stroke="#ddd" stroke-width="1"></line><line x1="251.25" x2="251.25" y1="360" y2="40" stroke="#ddd" stroke-width="1"></line><line x1="267.5" x2="267.5" y1="360" y2="109.1891891891892" stroke="#ddd" stroke-width="1"></line><line x1="283.75" x2="283.75" y1="360" y2="61.621621621621614" stroke="#ddd" stroke-width="1"></line><line x1="300" x2="300" y1="360" y2="117.83783783783781" stroke="#ddd" stroke-width="1"></line><line x1="316.25" x2="316.25" y1="360" y2="117.83783783783781" stroke="#ddd" stroke-width="1"></line><line x1="332.5" x2="332.5" y1="360" y2="143.7837837837838" stroke="#ddd" stroke-width="1"></line><line x1="348.75" x2="348.75" y1="360" y2="135.13513513513513" stroke="#ddd" stroke-width="1"></line><line x1="365" x2="365" y1="360" y2="152.43243243243242" stroke="#ddd" stroke-width="1"></line><line x1="381.25" x2="381.25" y1="360" y2="122.16216216216219" stroke="#ddd" stroke-width="1"></line><line x1="397.5" x2="397.5" y1="360" y2="169.7297297297297" stroke="#ddd" stroke-width="1"></line><line x1="413.75" x2="413.75" y1="360" y2="208.64864864864865" stroke="#ddd" stroke-width="1"></line><line x1="430" x2="430" y1="360" y2="221.6216216216216" stroke="#ddd" stroke-width="1"></line><line x1="446.25" x2="446.25" y1="360" y2="208.64864864864865" stroke="#ddd" stroke-width="1"></line><line x1="462.5" x2="462.5" y1="360" y2="269.18918918918916" stroke="#ddd" stroke-width="1"></line><line x1="478.75" x2="478.75" y1="360" y2="295.1351351351351" stroke="#ddd" stroke-width="1"></line><line x1="495" x2="495" y1="360" y2="221.6216216216216" stroke="#ddd" stroke-width="1"></line><line x1="511.25" x2="511.25" y1="360" y2="269.18918918918916" stroke="#ddd" stroke-width="1"></line><line x1="527.5" x2="527.5" y1="360" y2="308.1081081081081" stroke="#ddd" stroke-width="1"></line><line x1="543.75" x2="543.75" y1="360" y2="260.5405405405405" stroke="#ddd" stroke-width="1"></line><circle cx="56.25" cy="208.64864864864865" r="5"></circle><circle cx="72.5" cy="230.27027027027026" r="5"></circle><circle cx="88.75" cy="256.2162162162162" r="5"></circle><circle cx="105" cy="200" r="5"></circle><circle cx="121.25" cy="126.48648648648648" r="5"></circle><circle cx="137.5" cy="122.16216216216219" r="5"></circle><circle cx="153.75" cy="91.89189189189187" r="5"></circle><circle cx="170" cy="91.89189189189187" r="5"></circle><circle cx="186.25" cy="57.29729729729729" r="5"></circle><circle cx="202.5" cy="74.59459459459458" r="5"></circle><circle cx="218.75" cy="139.45945945945948" r="5"></circle><circle cx="235" cy="87.56756756756761" r="5"></circle><circle cx="251.25" cy="40" r="5"></circle><circle cx="267.5" cy="109.1891891891892" r="5"></circle><circle cx="283.75" cy="61.621621621621614" r="5"></circle><circle cx="300" cy="117.83783783783781" r="5"></circle><circle cx="316.25" cy="117.83783783783781" r="5"></circle><circle cx="332.5" cy="143.7837837837838" r="5"></circle><circle cx="348.75" cy="135.13513513513513" r="5"></circle><circle cx="365" cy="152.43243243243242" r="5"></circle><circle cx="381.25" cy="122.16216216216219" r="5"></circle><circle cx="397.5" cy="169.7297297297297" r="5"></circle><circle cx="413.75" cy="208.64864864864865" r="5"></circle><circle cx="430" cy="221.6216216216216" r="5"></circle><circle cx="446.25" cy="208.64864864864865" r="5"></circle><circle cx="462.5" cy="269.18918918918916" r="5"></circle><circle cx="478.75" cy="295.1351351351351" r="5"></circle><circle cx="495" cy="221.6216216216216" r="5"></circle><circle cx="511.25" cy="269.18918918918916" r="5"></circle><circle cx="527.5" cy="308.1081081081081" r="5"></circle><circle cx="543.75" cy="260.5405405405405" r="5"></circle><g class="axis" transform="translate(0,360)" fill="none" font-size="10" font-family="sans-serif" text-anchor="middle"><path class="domain" stroke="currentColor" d="M40.5,6V0.5H560.5V6"></path><g class="tick" opacity="1" transform="translate(40.5,0)"><line stroke="currentColor" y2="6"></line><text fill="currentColor" y="9" dy="0.71em">31</text></g><g class="tick" opacity="1" transform="translate(56.75,0)"><line stroke="currentColor" y2="6"></line><text fill="currentColor" y="9" dy="0.71em"> 1</text></g><g class="tick" opacity="1" transform="translate(89.25,0)"><line stroke="currentColor" y2="6"></line><text fill="currentColor" y="9" dy="0.71em"> 3</text></g><g class="tick" opacity="1" transform="translate(121.75,0)"><line stroke="currentColor" y2="6"></line><text fill="currentColor" y="9" dy="0.71em"> 5</text></g><g class="tick" opacity="1" transform="translate(154.25,0)"><line stroke="currentColor" y2="6"></line><text fill="currentColor" y="9" dy="0.71em"> 7</text></g><g class="tick" opacity="1" transform="translate(186.75,0)"><line stroke="currentColor" y2="6"></line><text fill="currentColor" y="9" dy="0.71em"> 9</text></g><g class="tick" opacity="1" transform="translate(219.25,0)"><line stroke="currentColor" y2="6"></line><text fill="currentColor" y="9" dy="0.71em">11</text></g><g class="tick" opacity="1" transform="translate(251.75,0)"><line stroke="currentColor" y2="6"></line><text fill="currentColor" y="9" dy="0.71em">13</text></g><g class="tick" opacity="1" transform="translate(284.25,0)"><line stroke="currentColor" y2="6"></line><text fill="currentColor" y="9" dy="0.71em">15</text></g><g class="tick" opacity="1" transform="translate(316.75,0)"><line stroke="currentColor" y2="6"></line><text fill="currentColor" y="9" dy="0.71em">17</text></g><g class="tick" opacity="1" transform="translate(349.25,0)"><line stroke="currentColor" y2="6"></line><text fill="currentColor" y="9" dy="0.71em">19</text></g><g class="tick" opacity="1" transform="translate(381.75,0)"><line stroke="currentColor" y2="6"></line><text fill="currentColor" y="9" dy="0.71em">21</text></g><g class="tick" opacity="1" transform="translate(414.25,0)"><line stroke="currentColor" y2="6"></line><text fill="currentColor" y="9" dy="0.71em">23</text></g><g class="tick" opacity="1" transform="translate(446.75,0)"><line stroke="currentColor" y2="6"></line><text fill="currentColor" y="9" dy="0.71em">25</text></g><g class="tick" opacity="1" transform="translate(479.25,0)"><line stroke="currentColor" y2="6"></line><text fill="currentColor" y="9" dy="0.71em">27</text></g><g class="tick" opacity="1" transform="translate(511.75,0)"><line stroke="currentColor" y2="6"></line><text fill="currentColor" y="9" dy="0.71em">29</text></g><g class="tick" opacity="1" transform="translate(544.25,0)"><line stroke="currentColor" y2="6"></line><text fill="currentColor" y="9" dy="0.71em">31</text></g><g class="tick" opacity="1" transform="translate(560.5,0)"><line stroke="currentColor" y2="6"></line><text fill="currentColor" y="9" dy="0.71em"> 1</text></g></g><g class="axis" transform="translate(40,0)" fill="none" font-size="10" font-family="sans-serif" text-anchor="end"><path class="domain" stroke="currentColor" d="M-6,360.5H0.5V40.5H-6"></path><g class="tick" opacity="1" transform="translate(0,360.5)"><line stroke="currentColor" x2="-6"></line><text fill="currentColor" x="-9" dy="0.32em">0</text></g><g class="tick" opacity="1" transform="translate(0,317.2567567567568)"><line stroke="currentColor" x2="-6"></line><text fill="currentColor" x="-9" dy="0.32em">10</text></g><g class="tick" opacity="1" transform="translate(0,274.01351351351354)"><line stroke="currentColor" x2="-6"></line><text fill="currentColor" x="-9" dy="0.32em">20</text></g><g class="tick" opacity="1" transform="translate(0,230.77027027027026)"><line stroke="currentColor" x2="-6"></line><text fill="currentColor" x="-9" dy="0.32em">30</text></g><g class="tick" opacity="1" transform="translate(0,187.52702702702703)"><line stroke="currentColor" x2="-6"></line><text fill="currentColor" x="-9" dy="0.32em">40</text></g><g class="tick" opacity="1" transform="translate(0,144.2837837837838)"><line stroke="currentColor" x2="-6"></line><text fill="currentColor" x="-9" dy="0.32em">50</text></g><g class="tick" opacity="1" transform="translate(0,101.04054054054052)"><line stroke="currentColor" x2="-6"></line><text fill="currentColor" x="-9" dy="0.32em">60</text></g><g class="tick" opacity="1" transform="translate(0,57.79729729729729)"><line stroke="currentColor" x2="-6"></line><text fill="currentColor" x="-9" dy="0.32em">70</text></g></g></svg>
+</body>
 </html>
